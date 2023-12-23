@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:socket_io_client/socket_io_client.dart';
 import 'package:tiktaktoe/provider/room_data_provider.dart';
 import 'package:tiktaktoe/resources/socket_client.dart';
 import 'package:tiktaktoe/screens/game_screen.dart';
@@ -7,6 +8,8 @@ import 'package:tiktaktoe/utils/utils.dart';
 
 class SocketMethods {
   final _socketClient = SocketClient.instance!.socket!;
+
+  Socket get socketClient => _socketClient;
 
   //!EMITS
   //*Room Emits
@@ -39,6 +42,14 @@ class SocketMethods {
         'roomId': roomId,
       });
     }
+  }
+
+  void tappedListener(BuildContext context) {
+    _socketClient.on("tapped", (data) {
+      RoomDataProvider roomDataProvider = Provider.of<RoomDataProvider>(context, listen: false);
+      roomDataProvider.updateDisplayElements(data['index'], data['choice']);
+      roomDataProvider.updateRoomData(data['updatedRoom']);
+    });
   }
 
   //!Listeners

@@ -19,7 +19,7 @@ const getPlayersByRoomId = async (roomId) => {
 
 //get players by id
 const getPlayersById = async (id) => {
-    let player = await Player.find({ where: { id } });
+    let player = await Player.findOne({ where: { id } });
     return player;
 }
 

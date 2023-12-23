@@ -1,7 +1,7 @@
 const express = require('express');
 const http = require('http');
 const { getAllPlayers, createPlayer, getPlayersByRoomId, getPlayersById } = require('./controllers/playerController');
-const { createRoom, getRoomById, updateRoomIsJoinVal, updateRoomTurn } = require('./controllers/roomController');
+const { createRoom, getRoomById, updateRoomIsJoinVal, updateRoomTurn, updateRoomTurnIndex } = require('./controllers/roomController');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -99,6 +99,39 @@ io.on('connection', (socket) => {
             let room = await getRoomById(roomId);
             let tappingPlayer = await getPlayersById(room.turn);
             let choice = tappingPlayer.playerType;
+            let players = await getPlayersByRoomId(room.id);
+            let nextTurnPlayer;
+            for (let player of players) {
+                if (choice === 'X') {
+                    if (player.playerType === 'O') {
+                        nextTurnPlayer = player;
+                        break;
+                    }
+                }
+                if (choice === 'O') {
+                    if (player.playerType === 'X') {
+                        nextTurnPlayer = player;
+                        break;
+                    }
+                }
+            }
+            if (!nextTurnPlayer) {
+                throw "Next turn player not found!!";
+            }
+            if (room.turnIndex === 0) {
+                await updateRoomTurn(room.id, nextTurnPlayer.id);
+                await updateRoomTurnIndex(room.id, 1);
+            } else {
+                await updateRoomTurn(room.id, nextTurnPlayer.id);
+                await updateRoomTurnIndex(room.id, 0);
+            }
+            let updatedRoom = await getRoomById(roomId);
+
+            io.to(room.id).emit("tapped", {
+                index,
+                choice,
+                updatedRoom,
+            });
         } catch (error) {
             console.log('error: ', error);
         }

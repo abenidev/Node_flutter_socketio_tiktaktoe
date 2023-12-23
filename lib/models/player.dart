@@ -2,11 +2,13 @@
 import 'dart:convert';
 
 class Player {
+  final int id;
   final String nickName;
   final String socketId;
   final int points;
   final String playerType;
   Player({
+    required this.id,
     required this.nickName,
     required this.socketId,
     required this.points,
@@ -14,12 +16,14 @@ class Player {
   });
 
   Player copyWith({
+    int? id,
     String? nickName,
     String? socketId,
     int? points,
     String? playerType,
   }) {
     return Player(
+      id: id ?? this.id,
       nickName: nickName ?? this.nickName,
       socketId: socketId ?? this.socketId,
       points: points ?? this.points,
@@ -29,6 +33,7 @@ class Player {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
+      'id': id,
       'nickName': nickName,
       'socketId': socketId,
       'points': points,
@@ -38,6 +43,7 @@ class Player {
 
   factory Player.fromMap(Map<String, dynamic> map) {
     return Player(
+      id: map['id'] as int,
       nickName: map['nickName'] as String,
       socketId: map['socketId'] as String,
       points: map['points'] as int,
@@ -51,18 +57,18 @@ class Player {
 
   @override
   String toString() {
-    return 'Player(nickName: $nickName, socketId: $socketId, points: $points, playerType: $playerType)';
+    return 'Player(id: $id, nickName: $nickName, socketId: $socketId, points: $points, playerType: $playerType)';
   }
 
   @override
   bool operator ==(covariant Player other) {
     if (identical(this, other)) return true;
 
-    return other.nickName == nickName && other.socketId == socketId && other.points == points && other.playerType == playerType;
+    return other.id == id && other.nickName == nickName && other.socketId == socketId && other.points == points && other.playerType == playerType;
   }
 
   @override
   int get hashCode {
-    return nickName.hashCode ^ socketId.hashCode ^ points.hashCode ^ playerType.hashCode;
+    return id.hashCode ^ nickName.hashCode ^ socketId.hashCode ^ points.hashCode ^ playerType.hashCode;
   }
 }
