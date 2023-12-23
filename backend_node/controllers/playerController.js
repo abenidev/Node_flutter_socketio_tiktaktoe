@@ -17,9 +17,21 @@ const getPlayersByRoomId = async (roomId) => {
     return players;
 }
 
+//get players by socketId
+const getPlayersBySocketId = async (socketId) => {
+    let player = await Player.findOne({ where: { socketId } });
+    return player;
+}
+
 //get players by id
 const getPlayersById = async (id) => {
     let player = await Player.findOne({ where: { id } });
+    return player;
+}
+
+//update player point
+const updatePlayerPoint = async (id, prevPoint) => {
+    let player = await Player.update({ points: prevPoint + 1 }, { where: { id } });
     return player;
 }
 
@@ -36,4 +48,6 @@ module.exports = {
     createPlayer,
     getPlayersByRoomId,
     getPlayersById,
+    getPlayersBySocketId,
+    updatePlayerPoint,
 }

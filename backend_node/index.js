@@ -1,6 +1,6 @@
 const express = require('express');
 const http = require('http');
-const { getAllPlayers, createPlayer, getPlayersByRoomId, getPlayersById } = require('./controllers/playerController');
+const { getAllPlayers, createPlayer, getPlayersByRoomId, getPlayersById, getPlayersBySocketId, updatePlayerPoint } = require('./controllers/playerController');
 const { createRoom, getRoomById, updateRoomIsJoinVal, updateRoomTurn, updateRoomTurnIndex } = require('./controllers/roomController');
 
 const app = express();
@@ -135,7 +135,23 @@ io.on('connection', (socket) => {
         } catch (error) {
             console.log('error: ', error);
         }
-    })
+    });
+
+    socket.on('winner', async ({ winnerSocketId, roomId }) => {
+        try {
+            let room = await getRoomById(roomId);
+            let player = await getPlayersBySocketId(winnerSocketId);
+            await updatePlayerPoint(player.id, player.points);
+            let updatedPlayer = await getPlayersById(player.id);
+            if (player.points >= room.maxRounds) {
+                io.to(room.id).emit('endGame', updatedPlayer);
+            } else {
+                io.to(room.id).emit('pointIncrease', updatedPlayer);
+            }
+        } catch (error) {
+            console.log('error: ', error);
+        }
+    });
 });
 
 app.get('/', getAllPlayers);

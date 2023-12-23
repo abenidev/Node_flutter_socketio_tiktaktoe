@@ -22,15 +22,13 @@ class _GameScreenState extends State<GameScreen> {
     super.initState();
     _socketMethods.updateRoomListener(context);
     _socketMethods.updatePlayersListener(context);
+    _socketMethods.pointIncreaseListener(context);
+    _socketMethods.endGameListener(context);
   }
 
   @override
   Widget build(BuildContext context) {
     RoomDataProvider roomDataProvider = Provider.of<RoomDataProvider>(context);
-    // var roomD = Provider.of<RoomDataProvider>(context).roomData.toString();
-    // Player player1 = Provider.of<RoomDataProvider>(context).player1;
-    // Player player2 = Provider.of<RoomDataProvider>(context).player2;
-    // debugPrint('player1: ${player1.toString()} || player2: ${player2.toString()}');
 
     return Scaffold(
       body: roomDataProvider.roomData['isJoin']
