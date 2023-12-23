@@ -1,7 +1,7 @@
 const express = require('express');
 const http = require('http');
 const { getAllPlayers, createPlayer, getPlayersByRoomId } = require('./controllers/playerController');
-const { createRoom, getRoomById } = require('./controllers/roomController');
+const { createRoom, getRoomById, updateRoomIsJoinVal } = require('./controllers/roomController');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -74,7 +74,9 @@ io.on('connection', (socket) => {
             console.log('playerId: ', player.id);
             console.log('roomId: ', room.id);
             socket.join(roomId);
-
+            //update room.isJoin value to false
+            const updatedRoom = await updateRoomIsJoinVal(room.id, false);
+            console.log('updatedRoom: ', updatedRoom);
             //
             io.to(room.id).emit("joinRoom:success", room);
             const players = await getPlayersByRoomId(room.id);
@@ -111,6 +113,12 @@ app.get('/room/:id', async (req, res) => {
     const id = req.params.id;
     const room = await getRoomById(id);
     res.status(200).send({ room });
+})
+
+app.get('/room/update/:id', async (req, res) => {
+    const id = req.params.id;
+    const updatedRoom = await updateRoomIsJoinVal(id, false);
+    res.status(200).send(updatedRoom);
 })
 
 app.get('/players/:roomId', async (req, res) => {

@@ -17,7 +17,14 @@ const getRoomById = async (roomId) => {
     return room;
 }
 
+//update room
+const updateRoomIsJoinVal = async (roomId, isJoinVal) => {
+    const updatedRoom = await Room.update({ isJoin: isJoinVal }, { where: { id: roomId } });
+    return updatedRoom;
+}
+
 module.exports = {
     createRoom,
     getRoomById,
+    updateRoomIsJoinVal,
 }
