@@ -23,6 +23,10 @@ class _JoinRoomScreenState extends State<JoinRoomScreen> {
     super.initState();
     _nameController = TextEditingController();
     _gameIdController = TextEditingController();
+    _socketMethods.joinRoomSuccessListener(context);
+    _socketMethods.joinRoomInvalidRoomErrorListener(context);
+    _socketMethods.joinRoomRoomFullErrorListener(context);
+    _socketMethods.updatePlayersListener(context);
   }
 
   @override

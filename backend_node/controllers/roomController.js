@@ -11,6 +11,13 @@ const createRoom = async () => {
     return room;
 }
 
+//get room by id
+const getRoomById = async (roomId) => {
+    let room = await Room.findOne({ where: { id: roomId } });
+    return room;
+}
+
 module.exports = {
-    createRoom
+    createRoom,
+    getRoomById,
 }

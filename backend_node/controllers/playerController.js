@@ -9,6 +9,16 @@ const createPlayer = async (playerInfo) => {
     return player;
 }
 
+
+
+//get players by roomId
+const getPlayersByRoomId = async (roomId) => {
+    let players = await Player.findAll({ where: { roomId } });
+    return players;
+}
+
+
+//!
 // get all players
 const getAllPlayers = async (req, res) => {
     let Players = await Player.findAll({})
@@ -17,5 +27,6 @@ const getAllPlayers = async (req, res) => {
 
 module.exports = {
     getAllPlayers,
-    createPlayer
+    createPlayer,
+    getPlayersByRoomId,
 }

@@ -1,7 +1,7 @@
 const express = require('express');
 const http = require('http');
-const { getAllPlayers, createPlayer } = require('./controllers/playerController');
-const { createRoom } = require('./controllers/roomController');
+const { getAllPlayers, createPlayer, getPlayersByRoomId } = require('./controllers/playerController');
+const { createRoom, getRoomById } = require('./controllers/roomController');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -51,6 +51,35 @@ io.on('connection', (socket) => {
     //joinRoom
     socket.on('joinRoom', async ({ nickName, roomId }) => {
         try {
+            const room = await getRoomById(roomId);
+            if (room == null) {
+                socket.emit('joinRoom:Error:InvalidRoomId', 'Please enter a valid room!');
+                return;
+            }
+            if (!room.isJoin) {
+                //TODO: update when implementing spectate mode
+                socket.emit('joinRoom:Error:RoomFull', 'Game is in progress, please join a different room!');
+                return;
+            }
+
+            let playerInfo = {
+                socketId: socket.id,
+                nickName,
+                playerType: 'O',
+                roomId: roomId,
+            };
+
+            const playerResp = await createPlayer(playerInfo);
+            const player = playerResp.dataValues;
+            console.log('playerId: ', player.id);
+            console.log('roomId: ', room.id);
+            socket.join(roomId);
+
+            //
+            io.to(room.id).emit("joinRoom:success", room);
+            const players = await getPlayersByRoomId(room.id);
+            io.to(room.id).emit("updatePlayers", players);
+
 
         } catch (error) {
             console.log('error: ', error);
@@ -77,6 +106,18 @@ app.get('/room', async (req, res) => {
     console.log('playerId: ', playerId);
     res.status(200).send({ roomId, playerId });
 });
+
+app.get('/room/:id', async (req, res) => {
+    const id = req.params.id;
+    const room = await getRoomById(id);
+    res.status(200).send({ room });
+})
+
+app.get('/players/:roomId', async (req, res) => {
+    const roomId = req.params.roomId;
+    const players = await getPlayersByRoomId(roomId);
+    res.status(200).send({ players });
+})
 
 
 server.listen(port, '0.0.0.0', () => {
