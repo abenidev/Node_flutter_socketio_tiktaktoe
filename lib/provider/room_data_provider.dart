@@ -3,12 +3,14 @@ import 'package:tiktaktoe/models/player.dart';
 
 class RoomDataProvider extends ChangeNotifier {
   Map<String, dynamic> _roomData = {};
+  final List<String> _displayElements = ['', '', '', '', '', '', '', '', ''];
   Player _player1 = Player(nickName: '', socketId: '', points: 0, playerType: 'X');
   Player _player2 = Player(nickName: '', socketId: '', points: 0, playerType: 'O');
 
   Map<String, dynamic> get roomData => _roomData;
   Player get player1 => _player1;
   Player get player2 => _player2;
+  List<String> get displayElements => _displayElements;
 
   void updateRoomData(Map<String, dynamic> roomData) {
     _roomData = roomData;

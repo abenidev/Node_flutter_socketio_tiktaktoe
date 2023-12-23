@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tiktaktoe/components/score_board.dart';
+import 'package:tiktaktoe/components/tiktaktoe_board.dart';
 import 'package:tiktaktoe/components/waiting_lobby.dart';
 import 'package:tiktaktoe/provider/room_data_provider.dart';
 import 'package:tiktaktoe/resources/socket_methods.dart';
@@ -39,6 +40,7 @@ class _GameScreenState extends State<GameScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   ScoreBoard(),
+                  TiktaktoeBoard(),
                 ],
               ),
             ),

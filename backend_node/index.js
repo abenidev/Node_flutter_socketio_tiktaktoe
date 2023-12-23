@@ -1,7 +1,7 @@
 const express = require('express');
 const http = require('http');
-const { getAllPlayers, createPlayer, getPlayersByRoomId } = require('./controllers/playerController');
-const { createRoom, getRoomById, updateRoomIsJoinVal } = require('./controllers/roomController');
+const { getAllPlayers, createPlayer, getPlayersByRoomId, getPlayersById } = require('./controllers/playerController');
+const { createRoom, getRoomById, updateRoomIsJoinVal, updateRoomTurn } = require('./controllers/roomController');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -35,11 +35,14 @@ io.on('connection', (socket) => {
             const player = playerResp.dataValues;
             console.log('playerId: ', player.id);
 
+            const updateRoomTurnResp = await updateRoomTurn(room.id, player.id);
+            const updatedRoom = await getRoomById(room.id);
+
             //player joined room
             socket.join(room.id);
 
             //tell client room created and take player to next screen
-            io.to(room.id).emit("createRoom:success", room);
+            io.to(room.id).emit("createRoom:success", updatedRoom);
 
         } catch (error) {
             console.log('error: ', error);
@@ -89,6 +92,17 @@ io.on('connection', (socket) => {
             console.log('error: ', error);
         }
     });
+
+    //
+    socket.on('tap', async ({ index, roomId }) => {
+        try {
+            let room = await getRoomById(roomId);
+            let tappingPlayer = await getPlayersById(room.turn);
+            let choice = tappingPlayer.playerType;
+        } catch (error) {
+            console.log('error: ', error);
+        }
+    })
 });
 
 app.get('/', getAllPlayers);

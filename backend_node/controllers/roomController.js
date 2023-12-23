@@ -1,5 +1,4 @@
 const db = require('../model');
-const path = require('path');
 
 // create main Model
 const Room = db.rooms;
@@ -23,8 +22,15 @@ const updateRoomIsJoinVal = async (roomId, isJoinVal) => {
     return updatedRoom;
 }
 
+//update room turn 
+const updateRoomTurn = async (roomId, turnVal) => {
+    const updatedRoom = await Room.update({ turn: turnVal }, { where: { id: roomId } });
+    return updatedRoom;
+}
+
 module.exports = {
     createRoom,
     getRoomById,
     updateRoomIsJoinVal,
+    updateRoomTurn,
 }

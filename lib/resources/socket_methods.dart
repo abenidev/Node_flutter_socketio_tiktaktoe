@@ -8,8 +8,8 @@ import 'package:tiktaktoe/utils/utils.dart';
 class SocketMethods {
   final _socketClient = SocketClient.instance!.socket!;
 
-  //EMITS
-
+  //!EMITS
+  //*Room Emits
   //create room
   void createRoom(String nickName) {
     if (nickName.isNotEmpty) {
@@ -25,6 +25,18 @@ class SocketMethods {
       _socketClient.emit("joinRoom", {
         "nickName": nickName,
         "roomId": int.parse(roomId),
+      });
+    }
+  }
+
+  //*Player Emits
+
+  //*Game Emits
+  void tapGrid(int index, int roomId, List<String> displayElements) {
+    if (displayElements[index].isEmpty) {
+      _socketClient.emit('tap', {
+        'index': index,
+        'roomId': roomId,
       });
     }
   }
@@ -76,4 +88,6 @@ class SocketMethods {
       showSnackBar(context, error);
     });
   }
+
+  //Player Errors
 }
