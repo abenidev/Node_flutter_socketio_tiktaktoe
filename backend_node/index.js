@@ -76,11 +76,13 @@ io.on('connection', (socket) => {
             socket.join(roomId);
             //update room.isJoin value to false
             const updatedRoom = await updateRoomIsJoinVal(room.id, false);
-            console.log('updatedRoom: ', updatedRoom);
+            const updatedRoomData = await getRoomById(roomId);
+            console.log('updatedRoomData: ', updatedRoomData);
             //
-            io.to(room.id).emit("joinRoom:success", room);
+            io.to(room.id).emit("joinRoom:success", updatedRoomData);
             const players = await getPlayersByRoomId(room.id);
             io.to(room.id).emit("updatePlayers", players);
+            io.to(room.id).emit("updateRoom", updatedRoomData);
 
 
         } catch (error) {

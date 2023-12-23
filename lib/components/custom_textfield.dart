@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:tiktaktoe/utils/colors.dart';
 
 class CustomTextField extends StatelessWidget {
-  const CustomTextField({super.key, required this.controller, required this.hintText});
+  const CustomTextField({super.key, required this.controller, required this.hintText, this.isReadOnly = false});
   final TextEditingController controller;
   final String hintText;
+  final bool isReadOnly;
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +15,7 @@ class CustomTextField extends StatelessWidget {
       ),
       child: TextField(
         controller: controller,
+        readOnly: isReadOnly,
         decoration: InputDecoration(
           fillColor: bgColor,
           filled: true,
