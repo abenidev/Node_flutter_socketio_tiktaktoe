@@ -44,7 +44,7 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const CustomText(
-                text: 'Create Room',
+                text: 'Create Game',
                 fontSize: 70,
                 shadows: [Shadow(blurRadius: 40, color: Colors.blue)],
               ),

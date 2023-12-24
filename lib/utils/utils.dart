@@ -25,3 +25,31 @@ void showGameDialog(BuildContext context, String text) {
     },
   );
 }
+
+BoxBorder getBorder(int index) {
+  const borderColor = Color(0xff776B5D);
+  const borderWidth = 3.0;
+  BorderSide borderSide = const BorderSide(color: borderColor, width: borderWidth);
+
+  switch (index) {
+    case 0:
+      return Border(bottom: borderSide, right: borderSide);
+    case 1:
+      return Border(bottom: borderSide, right: borderSide);
+    case 2:
+      return Border(bottom: borderSide);
+    case 3:
+      return Border(bottom: borderSide, right: borderSide);
+    case 4:
+      return Border(right: borderSide, bottom: borderSide);
+    case 5:
+      return Border(bottom: borderSide);
+    case 6:
+      return Border(right: borderSide);
+    case 7:
+      return Border(right: borderSide);
+    case 8:
+      return const Border();
+  }
+  return Border.all();
+}

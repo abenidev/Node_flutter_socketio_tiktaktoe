@@ -11,10 +11,10 @@ class CustomText extends StatelessWidget {
     return Text(
       text,
       style: TextStyle(
-        color: Colors.white,
+        // color: Colors.white,
         fontWeight: FontWeight.bold,
         fontSize: fontSize,
-        shadows: shadows,
+        // shadows: shadows,
       ),
     );
   }

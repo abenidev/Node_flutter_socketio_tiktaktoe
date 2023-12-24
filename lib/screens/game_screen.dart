@@ -38,8 +38,14 @@ class _GameScreenState extends State<GameScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   const ScoreBoard(),
-                  const TiktaktoeBoard(),
-                  Text('${roomDataProvider.getTurnPlayer()?.nickName}\'s turn'),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10.0),
+                    child: TiktaktoeBoard(),
+                  ),
+                  Text(
+                    '${roomDataProvider.getTurnPlayer()?.nickName} (${roomDataProvider.getTurnPlayer()?.playerType})\'s Turn',
+                    style: const TextStyle(fontSize: 22),
+                  ),
                 ],
               ),
             ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tiktaktoe/provider/room_data_provider.dart';
 import 'package:tiktaktoe/resources/socket_methods.dart';
+import 'package:tiktaktoe/utils/utils.dart';
 
 class TiktaktoeBoard extends StatefulWidget {
   const TiktaktoeBoard({super.key});
@@ -42,7 +43,7 @@ class _TiktaktoeBoardState extends State<TiktaktoeBoard> {
               onTap: () => onGridBoxTap(index, roomDataProvider),
               child: Container(
                 decoration: BoxDecoration(
-                  border: Border.all(color: Colors.white24),
+                  border: getBorder(index),
                 ),
                 child: Center(
                   child: AnimatedSize(
@@ -50,15 +51,8 @@ class _TiktaktoeBoardState extends State<TiktaktoeBoard> {
                     child: Text(
                       roomDataProvider.displayElements[index],
                       style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 100,
-                        shadows: [
-                          Shadow(
-                            blurRadius: 40,
-                            color: roomDataProvider.displayElements[index] == 'O' ? Colors.red : Colors.blue,
-                          )
-                        ],
+                        color: roomDataProvider.displayElements[index] == 'x' ? Colors.red : Colors.blue,
+                        fontSize: 80,
                       ),
                     ),
                   ),

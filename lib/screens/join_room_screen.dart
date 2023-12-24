@@ -49,7 +49,7 @@ class _JoinRoomScreenState extends State<JoinRoomScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const CustomText(
-                text: 'Join Room',
+                text: 'Join Game',
                 fontSize: 70,
                 shadows: [Shadow(blurRadius: 40, color: Colors.blue)],
               ),

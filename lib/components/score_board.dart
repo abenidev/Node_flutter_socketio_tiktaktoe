@@ -17,16 +17,15 @@ class ScoreBoard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                roomDataProvider.player1.nickName,
+                '${roomDataProvider.player1.nickName} (${roomDataProvider.player1.playerType})',
                 style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
                 ),
               ),
               Text(
                 roomDataProvider.player1.points.toString(),
-                style: const TextStyle(fontSize: 20, color: Colors.white),
+                style: const TextStyle(fontSize: 20),
               ),
             ],
           ),
@@ -37,16 +36,15 @@ class ScoreBoard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                roomDataProvider.player2.nickName,
+                '${roomDataProvider.player2.nickName} (${roomDataProvider.player2.playerType})',
                 style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
                 ),
               ),
               Text(
                 roomDataProvider.player2.points.toString(),
-                style: const TextStyle(fontSize: 20, color: Colors.white),
+                style: const TextStyle(fontSize: 20),
               ),
             ],
           ),
