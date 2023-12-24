@@ -26,7 +26,7 @@ class MainMenuScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Lottie.asset('assets/tiktaktoe.json'),
+              // Lottie.asset('assets/tiktaktoe.json'),
               const SizedBox(height: 10),
               CustomButton(
                 ontap: () => createRoom(context),

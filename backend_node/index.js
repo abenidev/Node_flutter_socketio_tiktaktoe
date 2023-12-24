@@ -61,7 +61,13 @@ io.on('connection', (socket) => {
             }
             if (!room.isJoin) {
                 //TODO: update when implementing spectate mode
-                socket.emit('joinRoom:Error:RoomFull', 'Game is in progress, please join a different room!');
+                socket.join(roomId);
+                const updatedRoomData = await getRoomById(roomId);
+                console.log('updatedRoomData: ', updatedRoomData);
+                const players = await getPlayersByRoomId(room.id);
+                socket.emit('joinRoom:Error:RoomFull', updatedRoomData);
+                socket.emit("updatePlayers", players);
+                socket.emit("updateRoom", updatedRoomData);
                 return;
             }
 

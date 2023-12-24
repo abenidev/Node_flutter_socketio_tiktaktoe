@@ -116,9 +116,11 @@ class SocketMethods {
   }
 
   void joinRoomRoomFullErrorListener(BuildContext context) {
-    _socketClient.on("joinRoom:Error:RoomFull", (error) {
-      debugPrint('joinRoom:Error:RoomFull: $error');
-      showSnackBar(context, error);
+    _socketClient.on("joinRoom:Error:RoomFull", (roomData) {
+      debugPrint('joinRoom:Error:RoomFull: $roomData');
+      showSnackBar(context, 'Room full. joining as spectator.');
+      Provider.of<RoomDataProvider>(context, listen: false).updateRoomData(roomData);
+      Navigator.pushNamed(context, GameScreen.routeName);
     });
   }
 
